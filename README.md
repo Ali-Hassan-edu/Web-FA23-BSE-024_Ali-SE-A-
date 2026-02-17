@@ -7,7 +7,11 @@
 
 > A beginner-friendly Node.js weather application that fetches real-time weather data for **Vehari, Multan, Punjab, Pakistan** using the free Open-Meteo API — with no API key required.
 
----
+---<img width="1341" height="688" alt="image" src="https://github.com/user-attachments/assets/67d33558-7ec5-48f0-adda-d7f924a60c00" />
+   <img width="995" height="524" alt="image" src="https://github.com/user-attachments/assets/75a2275e-ea3c-4b63-a4a8-dbf36c73c547" />
+
+
+
 
 ## 📋 Table of Contents
 
