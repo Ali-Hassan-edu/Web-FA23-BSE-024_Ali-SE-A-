@@ -155,15 +155,17 @@
 
     <div class="form-card">
       <span class="form-label" id="formLabel">Add New Item</span>
-      <input type="hidden" id="itemId" />
-      <div class="form-row">
-        <input type="text" id="name" placeholder="Item name…" required />
-        <input type="text" id="description" placeholder="Description…" />
-      </div>
-      <div class="btn-row">
-        <button class="btn-primary" id="submitBtn" onclick="submitForm()">+ Add Item</button>
-        <button class="btn-cancel" id="cancelBtn" style="display:none" onclick="resetForm()">Cancel</button>
-      </div>
+      <form id="itemForm" onsubmit="submitForm(event)">
+        <input type="hidden" id="itemId" />
+        <div class="form-row">
+          <input type="text" id="name" placeholder="Item name…" required />
+          <input type="text" id="description" placeholder="Description…" />
+        </div>
+        <div class="btn-row">
+          <button type="submit" class="btn-primary" id="submitBtn">+ Add Item</button>
+          <button type="button" class="btn-cancel" id="cancelBtn" style="display:none" onclick="resetForm()">Cancel</button>
+        </div>
+      </form>
     </div>
 
     <div class="list-header">
@@ -206,9 +208,15 @@
             ${item.description ? `<div class="item-desc">${esc(item.description)}</div>` : ''}
           </div>
           <div class="item-actions">
-            <button class="btn-edit" onclick="editItem('${item.id}','${esc(item.name)}','${esc(item.description||'')}')">Edit</button>
-            <button class="btn-delete" onclick="deleteItem('${item.id}')">Delete</button>
+            <button class="btn-edit">Edit</button>
+            <button class="btn-delete">Delete</button>
           </div>`;
+        li.querySelector('.btn-edit').addEventListener('click', () => {
+          editItem(item.id, item.name, item.description || '');
+        });
+        li.querySelector('.btn-delete').addEventListener('click', () => {
+          deleteItem(item.id);
+        });
         list.appendChild(li);
       });
     }
@@ -217,7 +225,8 @@
       return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
     }
 
-    async function submitForm() {
+    async function submitForm(event) {
+      if (event) event.preventDefault();
       const id = document.getElementById('itemId').value;
       const name = document.getElementById('name').value.trim();
       const description = document.getElementById('description').value.trim();
