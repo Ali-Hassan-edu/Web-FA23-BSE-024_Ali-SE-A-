@@ -1,0 +1,206 @@
+# CRUD Examples
+
+Three beginner-friendly Node.js apps showing how to do **Create, Read, Update, and Delete** (CRUD) operations with three different databases — **MongoDB**, **MySQL**, and **SQLite**.
+
+Each app has its own folder, its own server, and its own frontend page. They all look and work the same way, but use a different database under the hood.
+
+---
+
+## What is CRUD?
+
+CRUD stands for the four basic things you can do with data:
+
+| Letter | Action | Example |
+|--------|--------|---------|
+| **C** | Create | Add a new item |
+| **R** | Read | Show all items |
+| **U** | Update | Edit an item |
+| **D** | Delete | Remove an item |
+
+---
+
+## Project Structure
+
+```
+crud_examples/
+├── mongodb_crud/        # App using MongoDB  → runs on port 3000
+│   ├── server.js
+│   ├── package.json
+│   └── public/
+│       └── index.html
+│
+├── mysql_crud/          # App using MySQL    → runs on port 3001
+│   ├── server.js
+│   ├── package.json
+│   └── public/
+│       └── index.html
+│
+└── sqlite_crud/         # App using SQLite   → runs on port 3002
+    ├── server.js
+    ├── package.json
+    └── public/
+        └── index.html
+```
+
+---
+
+## Requirements
+
+Make sure you have these installed before you start:
+
+- [Node.js](https://nodejs.org) (v16 or higher)
+- [npm](https://www.npmjs.com) (comes with Node.js)
+- **For MongoDB:** [MongoDB Community Server](https://www.mongodb.com/try/download/community) running locally
+- **For MySQL:** [MySQL Server](https://dev.mysql.com/downloads/mysql/) running locally
+- **For SQLite:** Nothing extra — SQLite is a file-based database, it's built in
+
+---
+
+## Setup & Running Each App
+
+### MongoDB CRUD
+
+**1. Start MongoDB** on your machine (default port 27017).
+
+**2. Install dependencies and start the server:**
+```bash
+cd mongodb_crud
+npm install
+npm start
+```
+
+**3. Open your browser:** [http://localhost:3000](http://localhost:3000)
+
+---
+
+### MySQL CRUD
+
+**1. Start MySQL** on your machine and create a database and table:
+```sql
+CREATE DATABASE crud_db;
+USE crud_db;
+CREATE TABLE items (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT
+);
+```
+
+**2. Update the database credentials** in `mysql_crud/server.js`:
+```js
+const db = mysql.createConnection({
+  host: 'localhost',
+  user: 'your_username',      // change this
+  password: 'your_password',  // change this
+  database: 'crud_db'
+});
+```
+
+**3. Install dependencies and start the server:**
+```bash
+cd mysql_crud
+npm install
+npm start
+```
+
+**4. Open your browser:** [http://localhost:3001](http://localhost:3001)
+
+---
+
+### SQLite CRUD
+
+SQLite doesn't need any setup — it creates a database file automatically.
+
+**1. Install dependencies and start the server:**
+```bash
+cd sqlite_crud
+npm install
+npm start
+```
+
+**2. Open your browser:** [http://localhost:3002](http://localhost:3002)
+
+---
+
+## How the Frontend Works
+
+Each app has a single HTML page that lets you:
+
+- **Add** a new item by filling in the Name and Description fields and clicking **+ Add Item**
+- **Edit** an existing item by clicking the **Edit** button — this fills the form with the current values so you can change them
+- **Delete** an item by clicking the **Delete** button — it will ask you to confirm first
+- **Cancel** an edit by clicking **Cancel** to clear the form
+
+The page talks to the server in the background (using `fetch`) so it never needs to reload.
+
+---
+
+## API Endpoints
+
+Each server exposes the same REST API (just on a different port):
+
+| Method | URL | What it does |
+|--------|-----|-------------|
+| `GET` | `/api/items` | Get all items |
+| `POST` | `/api/items` | Add a new item |
+| `PUT` | `/api/items/:id` | Update an item by ID |
+| `DELETE` | `/api/items/:id` | Delete an item by ID |
+
+**Example — Add a new item:**
+```bash
+curl -X POST http://localhost:3000/api/items \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Apple", "description": "A red fruit"}'
+```
+
+---
+
+## Dependencies
+
+| Package | What it does |
+|---------|-------------|
+| `express` | Web server framework — handles routes and requests |
+| `body-parser` | Reads JSON data sent from the frontend |
+| `cors` | Allows the frontend to talk to the server from the browser |
+| `mongoose` | *(MongoDB only)* Makes it easy to work with MongoDB |
+| `mysql2` | *(MySQL only)* Connects Node.js to a MySQL database |
+| `sqlite3` | *(SQLite only)* Connects Node.js to a SQLite database file |
+
+---
+
+## Database Comparison
+
+| Feature | MongoDB | MySQL | SQLite |
+|---------|---------|-------|--------|
+| Type | NoSQL (documents) | SQL (tables) | SQL (tables) |
+| Setup needed | Yes (install + run) | Yes (install + run) | No — file only |
+| Good for | Flexible data, fast prototyping | Structured data, production apps | Small apps, learning, local use |
+| ID field | `_id` (auto) | `id` (auto-increment) | `id` (auto-increment) |
+
+---
+
+## UI Design
+
+The redesigned interface uses a **dark theme** with each app color-coded:
+
+- 🟢 **MongoDB** — Green accent
+- 🟠 **MySQL** — Orange accent  
+- 🟣 **SQLite** — Purple accent
+
+All three share the same layout: a form card at the top for adding/editing, and a live item list below with an item counter badge.
+
+---
+
+## Troubleshooting
+
+**"Cannot connect to server" error on the page**
+→ Make sure you ran `npm start` in the correct folder and that the required database service is running.
+
+**MySQL "Access denied" error**
+→ Double-check the username and password in `server.js`.
+
+**Port already in use**
+→ Change the `PORT` variable at the top of `server.js` to a free port, and update the `API_URL` in `public/index.html` to match.
+
+**`npm install` fails**
+→ Make sure Node.js v16+ is installed. Run `node -v` to check.
