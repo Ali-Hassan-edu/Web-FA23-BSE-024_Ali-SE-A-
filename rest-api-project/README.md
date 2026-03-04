@@ -405,10 +405,13 @@ For all routes that require a token, go to the **Headers** tab in Postman and ad
 
 ## Author
 
-**Name:** Ali
-**Roll No:** BSE-024
+**Name:** Ali Hassan
+
+**Roll No:** DA23-BSE-024
+
 **Section:** SE-A
-**Course:** Web Technologies — FA23
+
+**Course:** Advance Web 
 
 ---
 
