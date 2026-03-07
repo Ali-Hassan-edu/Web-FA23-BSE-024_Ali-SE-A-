@@ -349,7 +349,7 @@ function Marquee() {
   );
 }
 
-/* ─── ABOUT ───────────────────────────────────────────────────────────── */
+/* ─── ABOUT ───────────────────────────────────────────────────── */
 function About({ info }) {
   return (
     <section id="about" className="section">
