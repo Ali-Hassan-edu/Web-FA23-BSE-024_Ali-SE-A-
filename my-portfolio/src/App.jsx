@@ -129,16 +129,18 @@ const CSS = `
   @media(max-width:640px){
     .nav-links{
       display:none;flex-direction:column;
-      position:fixed;top:0;right:0;bottom:0;width:75%;max-width:300px;
-      background:rgba(8,8,16,0.98);backdrop-filter:blur(20px);
-      padding:80px 32px 40px;gap:8px;z-index:999;
-      border-left:1px solid rgba(255,255,255,0.08);
-      animation:slideIn 0.3s ease forwards;
+      position:fixed;top:0;right:0;bottom:0;width:72%;max-width:280px;
+      background:rgba(8,8,16,0.99);backdrop-filter:blur(24px);
+      padding:90px 28px 40px;gap:4px;z-index:1100;
+      border-left:1px solid rgba(255,255,255,0.1);
+      box-shadow:-20px 0 60px rgba(0,0,0,0.8);
+      animation:slideIn 0.25s ease forwards;
     }
     .nav-links.open{display:flex;}
-    .nav-links .nav-link{font-size:18px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);}
+    .nav-links .nav-link{font-size:17px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.07);width:100%;}
     .hamburger{display:flex;}
     .nav-cta{display:none;}
+    .nav-name{display:none !important;}
     .hero-h1{font-size:clamp(52px,15vw,80px) !important;letter-spacing:-2px !important;}
     .proj-grid{grid-template-columns:1fr !important;}
     .section-title{font-size:clamp(30px,8vw,44px) !important;}
@@ -181,11 +183,11 @@ function Nav({ active, onAdmin }) {
 
   return (
     <>
-      {open && <div onClick={() => setOpen(false)} style={{ position:"fixed", inset:0, zIndex:998, background:"rgba(0,0,0,0.5)" }} />}
-      <nav style={{ position:"fixed", top:0, left:0, right:0, zIndex:1000, padding:"0 24px", height:66, display:"flex", alignItems:"center", justifyContent:"space-between", background:scrolled||open?"rgba(8,8,16,0.97)":"transparent", backdropFilter:scrolled?"blur(20px)":"none", borderBottom:scrolled?"1px solid rgba(255,255,255,0.06)":"none", transition:"all 0.4s" }}>
+      {open && <div onClick={() => setOpen(false)} style={{ position:"fixed", inset:0, zIndex:1099, background:"rgba(0,0,0,0.65)" }} />}
+      <nav style={{ position:"fixed", top:0, left:0, right:0, zIndex:1100, padding:"0 20px", height:66, display:"flex", alignItems:"center", justifyContent:"space-between", background:scrolled||open?"rgba(8,8,16,0.97)":"transparent", backdropFilter:scrolled?"blur(20px)":"none", borderBottom:scrolled?"1px solid rgba(255,255,255,0.06)":"none", transition:"all 0.4s" }}>
         <a href="#hero" style={{ display:"flex", alignItems:"center", gap:10 }}>
           <div style={{ width:36, height:36, borderRadius:10, background:"linear-gradient(135deg,#FF4D6D,#A78BFA)", display:"flex", alignItems:"center", justifyContent:"center", fontFamily:"Syne", fontWeight:800, fontSize:14, color:"#fff", flexShrink:0 }}>AH</div>
-          <span style={{ fontFamily:"Syne", fontWeight:700, fontSize:16, color:"#fff", letterSpacing:"0.04em" }}>ALI HASSAN</span>
+          <span className="nav-name" style={{ fontFamily:"Syne", fontWeight:700, fontSize:16, color:"#fff", letterSpacing:"0.04em" }}>ALI HASSAN</span>
         </a>
 
         {/* Desktop links */}
@@ -307,10 +309,7 @@ function Hero({ info }) {
                   ))}
                 </div>
               </div>
-              <div style={{ position:"absolute", top:14, right:14, padding:"8px 12px", borderRadius:10, background:"rgba(8,8,16,0.85)", backdropFilter:"blur(12px)", border:"1px solid rgba(255,255,255,0.1)", textAlign:"center", lineHeight:1.6 }}>
-                <div style={{ fontSize:16 }}>🎓</div>
-                <div style={{ fontSize:8.5, color:"rgba(255,255,255,0.6)", fontFamily:"DM Sans", letterSpacing:"0.1em", marginTop:2 }}>BSSE<br/>COMSATS</div>
-              </div>
+
             </div>
           </div>
         </div>
