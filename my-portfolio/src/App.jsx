@@ -127,6 +127,7 @@ const CSS = `
     .section{padding:60px 0;}
   }
   @media(max-width:640px){
+    .nav-links-desktop{display:none !important;}
     .nav-links{
       display:none;flex-direction:column;
       position:fixed;top:0;right:0;bottom:0;width:72%;max-width:280px;
@@ -191,7 +192,7 @@ function Nav({ active, onAdmin }) {
         </a>
 
         {/* Desktop links */}
-        <div className="nav-links" style={{ display:"flex", alignItems:"center", gap:32 }}>
+        <div className="nav-links-desktop" style={{ display:"flex", alignItems:"center", gap:32 }}>
           {links.map(l => (
             <button key={l} onClick={() => handleLink(`#${l.toLowerCase()}`)} className={`nav-link ${active===l.toLowerCase()?"active":""}`} style={{ background:"none", border:"none" }}>{l}</button>
           ))}
@@ -361,20 +362,24 @@ function About({ info }) {
             </div>
           </div>
           <div>
-            <div style={{ fontSize:11, fontWeight:600, letterSpacing:"0.12em", color:"rgba(255,255,255,0.3)", marginBottom:24, textTransform:"uppercase" }}>Career & Education</div>
-            <div style={{ position:"relative", paddingLeft:22 }}>
-              <div style={{ position:"absolute", left:7, top:8, bottom:0, width:1, background:"linear-gradient(to bottom,#FF4D6D,#A78BFA,rgba(255,255,255,0.04))" }} />
+            <div style={{ fontSize:11, fontWeight:600, letterSpacing:"0.12em", color:"rgba(255,255,255,0.3)", marginBottom:20, textTransform:"uppercase" }}>Career & Education</div>
+            <div style={{ display:"flex", flexDirection:"column", gap:10 }}>
               {[
-                { period:"2023 — Present", role:"Software Engineering Student", company:"COMSATS University, Vehari", desc:"Pursuing BSSE — web, mobile, and AI/ML projects." },
-                { period:"2024 — Present", role:"Full Stack Developer", company:"Freelance • Remote", desc:"Building full-stack web & Android apps for clients." },
-                { period:"2023 — 2024", role:"AI & ML Developer", company:"Academic Projects", desc:"Developed AI/ML projects as part of curriculum." },
+                { period:"2023 — Present", role:"Software Engineering Student", company:"COMSATS University, Vehari", desc:"Pursuing BSSE — web, mobile, and AI/ML projects.", accent:"#FF4D6D", icon:"🎓" },
+                { period:"2024 — Present", role:"Full Stack Developer", company:"Freelance • Remote", desc:"Building full-stack web & Android apps for clients.", accent:"#A78BFA", icon:"💻" },
+                { period:"2023 — 2024", role:"AI & ML Developer", company:"Academic Projects", desc:"Developed AI/ML projects as part of curriculum.", accent:"rgba(255,255,255,0.35)", icon:"🤖" },
               ].map((t,i) => (
-                <div key={i} style={{ position:"relative", marginBottom:28, paddingLeft:18 }}>
-                  <div style={{ position:"absolute", left:-17, top:6, width:12, height:12, borderRadius:"50%", background:i===0?"#FF4D6D":i===1?"#A78BFA":"rgba(255,255,255,0.2)", border:"2px solid #080810", boxShadow:i===0?"0 0 12px rgba(255,77,109,0.8)":"none" }} />
-                  <div style={{ fontSize:11, color:i===0?"#FF4D6D":"rgba(255,255,255,0.25)", letterSpacing:"0.05em", marginBottom:3 }}>{t.period}</div>
-                  <div style={{ fontFamily:"Syne", fontSize:14, fontWeight:700, color:"#fff", marginBottom:2 }}>{t.role}</div>
-                  <div style={{ fontSize:12, color:"rgba(255,255,255,0.35)", marginBottom:5 }}>{t.company}</div>
-                  <div style={{ fontSize:12, color:"rgba(255,255,255,0.4)", lineHeight:1.6 }}>{t.desc}</div>
+                <div key={i} style={{ position:"relative", background:"rgba(255,255,255,0.03)", border:`1px solid rgba(255,255,255,0.07)`, borderLeft:`3px solid ${t.accent}`, borderRadius:10, padding:"14px 16px", transition:"background 0.2s" }}
+                  onMouseEnter={e => e.currentTarget.style.background="rgba(255,255,255,0.055)"}
+                  onMouseLeave={e => e.currentTarget.style.background="rgba(255,255,255,0.03)"}
+                >
+                  <div style={{ display:"flex", alignItems:"flex-start", justifyContent:"space-between", gap:8, marginBottom:4 }}>
+                    <div style={{ fontFamily:"Syne", fontSize:13, fontWeight:700, color:"#fff", lineHeight:1.3 }}>{t.role}</div>
+                    <div style={{ fontSize:18, flexShrink:0, lineHeight:1 }}>{t.icon}</div>
+                  </div>
+                  <div style={{ fontSize:11, color:t.accent, fontWeight:600, letterSpacing:"0.04em", marginBottom:4 }}>{t.company}</div>
+                  <div style={{ fontSize:11, color:"rgba(255,255,255,0.35)", lineHeight:1.6, marginBottom:6 }}>{t.desc}</div>
+                  <div style={{ display:"inline-block", fontSize:10, color:"rgba(255,255,255,0.25)", background:"rgba(255,255,255,0.06)", padding:"2px 8px", borderRadius:20, letterSpacing:"0.04em" }}>{t.period}</div>
                 </div>
               ))}
             </div>
