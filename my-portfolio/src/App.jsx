@@ -42,12 +42,18 @@ const CSS = `
   img{max-width:100%;display:block;}
 
   @keyframes fadeUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+  @keyframes fadeInUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
   @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-14px);}}
   @keyframes grad{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
   @keyframes blink{0%,100%{opacity:1;}50%{opacity:0.3;}}
   @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
   @keyframes glowBtn{0%,100%{box-shadow:0 0 20px rgba(255,77,109,0.35);}50%{box-shadow:0 0 45px rgba(255,77,109,0.7);}}
   @keyframes slideIn{from{opacity:0;transform:translateX(100%);}to{opacity:1;transform:translateX(0);}}
+
+  /* Scroll reveal */
+  .section{opacity:0;transform:translateY(32px);transition:opacity 0.7s ease,transform 0.7s ease;}
+  .section.revealed{opacity:1;transform:translateY(0);}
+  #hero.section{opacity:1;transform:none;}
 
   .grad-text{
     background:linear-gradient(135deg,#FF4D6D,#A78BFA,#4DFFB4);
@@ -85,10 +91,11 @@ const CSS = `
     border:1px solid rgba(255,255,255,0.08);
     border-radius:18px;transition:all 0.3s;
   }
-  .card:hover{border-color:rgba(255,77,109,0.35);transform:translateY(-5px);background:rgba(255,255,255,0.05);}
+  .card:hover{border-color:rgba(255,77,109,0.45);transform:translateY(-5px);background:rgba(255,255,255,0.06);box-shadow:0 8px 32px rgba(255,77,109,0.12);}
 
   .proj-card{cursor:pointer;overflow:hidden;}
   .proj-card:hover .proj-arrow{opacity:1;transform:translateX(0);}
+  .proj-card:hover{box-shadow:0 0 30px var(--proj-color,rgba(255,77,109,0.3)) !important;}
 
   input,textarea,select{
     width:100%;background:rgba(255,255,255,0.05);
@@ -142,7 +149,7 @@ const CSS = `
     .hamburger{display:flex;}
     .nav-cta{display:none;}
     .nav-name{display:none !important;}
-    .hero-h1{font-size:clamp(52px,15vw,80px) !important;letter-spacing:-2px !important;}
+    .hero-h1{font-size:clamp(36px,12vw,80px) !important;letter-spacing:-1px !important;}
     .proj-grid{grid-template-columns:1fr !important;}
     .section-title{font-size:clamp(30px,8vw,44px) !important;}
     .stats-row{gap:20px !important;}
@@ -254,6 +261,128 @@ function Hero({ info }) {
 
   const fmt = n => n < 10 ? `0${n}` : `${n}`;
 
+  const generateCV = () => {
+    const cvHTML = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>${info.name} — CV</title>
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:#111;font-size:13px;line-height:1.6;}
+    .page{max-width:780px;margin:0 auto;padding:42px 48px;}
+    .header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #FF4D6D;padding-bottom:22px;margin-bottom:26px;}
+    .name{font-size:34px;font-weight:900;letter-spacing:-1px;color:#111;}
+    .tagline{font-size:13px;color:#666;margin-top:4px;}
+    .contact-info{text-align:right;font-size:12px;color:#444;line-height:1.8;}
+    .contact-info a{color:#FF4D6D;text-decoration:none;}
+    .section{margin-bottom:24px;}
+    .section-title{font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#FF4D6D;margin-bottom:12px;padding-bottom:5px;border-bottom:1px solid #eee;}
+    .bio{font-size:13px;color:#444;line-height:1.8;}
+    .timeline-item{margin-bottom:14px;padding-left:14px;border-left:2px solid #eee;}
+    .timeline-role{font-weight:700;font-size:13px;color:#111;}
+    .timeline-company{font-size:12px;color:#FF4D6D;font-weight:600;}
+    .timeline-period{font-size:11px;color:#888;margin-bottom:3px;}
+    .timeline-desc{font-size:12px;color:#555;line-height:1.65;}
+    .skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .skill-group-title{font-weight:700;font-size:12px;color:#333;margin-bottom:5px;}
+    .skill-tags{display:flex;flex-wrap:wrap;gap:5px;}
+    .skill-tag{font-size:11px;background:#f3f0ff;color:#6d4cbb;padding:3px 9px;border-radius:4px;font-weight:500;}
+    .stats{display:flex;gap:28px;margin-bottom:20px;}
+    .stat-item{text-align:center;}
+    .stat-num{font-size:22px;font-weight:900;color:#FF4D6D;}
+    .stat-label{font-size:10px;color:#888;text-transform:uppercase;letter-spacing:0.08em;}
+    @media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}.page{padding:28px 36px;}}
+  </style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div>
+      <div class="name">${info.name}</div>
+      <div class="tagline">${info.tagline}</div>
+      <div class="tagline" style="margin-top:2px;color:#888;">Software Engineering Student · ${info.university}</div>
+    </div>
+    <div class="contact-info">
+      <div><a href="mailto:${info.email}">${info.email}</a></div>
+      <div><a href="${info.linkedin}" target="_blank">LinkedIn Profile</a></div>
+      <div><a href="${info.github}" target="_blank">GitHub Profile</a></div>
+      <div>${info.location || 'Pakistan'}</div>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-item"><div class="stat-num">${info.yearsExp}+</div><div class="stat-label">Years Exp.</div></div>
+    <div class="stat-item"><div class="stat-num">${info.projectsCount}+</div><div class="stat-label">Projects</div></div>
+    <div class="stat-item"><div class="stat-num">5+</div><div class="stat-label">Technologies</div></div>
+    <div class="stat-item" style="text-align:left;flex:1;display:flex;align-items:center;padding-left:8px;">
+      <span style="background:#e6fff4;color:#14a854;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;">✓ OPEN TO OPPORTUNITIES</span>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Profile</div>
+    <p class="bio">${info.bio}</p>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Education & Experience</div>
+    <div class="timeline-item">
+      <div class="timeline-role">B.S. Software Engineering</div>
+      <div class="timeline-company">COMSATS University Islamabad, Vehari Campus</div>
+      <div class="timeline-period">2023 – Present</div>
+      <div class="timeline-desc">Studying software engineering with focus on full-stack development, mobile applications, and AI/ML systems.</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-role">Full-Stack Developer (Freelance)</div>
+      <div class="timeline-company">Independent Projects</div>
+      <div class="timeline-period">2022 – Present</div>
+      <div class="timeline-desc">Built ${info.projectsCount}+ projects spanning web applications, Android apps, and AI-powered tools using React, Node.js, and Python.</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">Technical Skills</div>
+    <div class="skills-grid">
+      <div>
+        <div class="skill-group-title">Frontend & Web</div>
+        <div class="skill-tags">
+          <span class="skill-tag">React</span><span class="skill-tag">JavaScript</span><span class="skill-tag">HTML/CSS</span><span class="skill-tag">TypeScript</span>
+        </div>
+      </div>
+      <div>
+        <div class="skill-group-title">Backend & Databases</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Node.js</span><span class="skill-tag">Express</span><span class="skill-tag">PostgreSQL</span><span class="skill-tag">Firebase</span>
+        </div>
+      </div>
+      <div style="margin-top:10px;">
+        <div class="skill-group-title">Mobile & Systems</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Android</span><span class="skill-tag">Java</span><span class="skill-tag">C++</span><span class="skill-tag">Kotlin</span>
+        </div>
+      </div>
+      <div style="margin-top:10px;">
+        <div class="skill-group-title">AI & Data</div>
+        <div class="skill-tags">
+          <span class="skill-tag">Python</span><span class="skill-tag">ML/AI</span><span class="skill-tag">TensorFlow</span><span class="skill-tag">Data Analysis</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section" style="margin-bottom:0;">
+    <div class="section-title">Availability</div>
+    <p style="font-size:12px;color:#444;">Currently <strong>open to internships, freelance projects, and full-time positions</strong> in software engineering. Available to start immediately. Prefer remote or hybrid roles.</p>
+  </div>
+</div>
+<script>window.onload = () => window.print();</script>
+</body>
+</html>`;
+    const w = window.open('', '_blank');
+    if (w) { w.document.write(cvHTML); w.document.close(); }
+  };
+
   return (
     <section id="hero" style={{ minHeight:"100vh", display:"flex", alignItems:"center", position:"relative", overflow:"hidden", paddingTop:66 }}>
       {/* BG effects */}
@@ -270,7 +399,7 @@ function Hero({ info }) {
               <span style={{ fontFamily:"DM Sans", fontSize:11, color:"#4DFFB4", fontWeight:600, letterSpacing:"0.1em" }}>{info.available ? "AVAILABLE FOR OPPORTUNITIES" : "NOT AVAILABLE RIGHT NOW"}</span>
             </div>
 
-            <h1 className="hero-h1" style={{ fontFamily:"Syne", fontWeight:800, lineHeight:0.88, letterSpacing:"-3px", marginBottom:22, fontSize:"clamp(60px,10vw,112px)" }}>
+            <h1 className="hero-h1" style={{ fontFamily:"Syne", fontWeight:800, lineHeight:0.88, letterSpacing:"-3px", marginBottom:22, fontSize:"clamp(44px,10vw,112px)" }}>
               <div style={{ color:"#fff" }}>ALI</div>
               <div className="grad-text">HASSAN</div>
             </h1>
@@ -281,7 +410,7 @@ function Hero({ info }) {
 
             <div className="hero-btns" style={{ display:"flex", gap:12, marginBottom:48, flexWrap:"wrap" }}>
               <a href="#projects" className="btn-primary">View My Work →</a>
-              <a href="#about" className="btn-secondary">About Me ▶</a>
+              <button onClick={generateCV} className="btn-secondary" style={{cursor:"pointer"}}>Download CV ↓</button>
             </div>
 
             <div className="stats-row hero-stats" style={{ display:"flex", gap:40, flexWrap:"wrap" }}>
@@ -427,7 +556,7 @@ function Projects({ projects }) {
 
         <div className="proj-grid" style={{ display:"grid", gridTemplateColumns:"repeat(3,1fr)", gap:20 }}>
           {shown.map(p => (
-            <a key={p.id} href={p.link} target="_blank" rel="noreferrer" className="card proj-card" style={{ display:"block" }}>
+            <a key={p.id} href={p.link} target="_blank" rel="noreferrer" className="card proj-card" style={{ display:"block", "--proj-color":`${p.color}50` }}>
               <div style={{ height:150, background:`linear-gradient(135deg,${p.color}22,${p.color}08)`, display:"flex", alignItems:"center", justifyContent:"center", fontSize:48, position:"relative" }}>
                 {p.icon}
                 <div style={{ position:"absolute", top:12, right:12, padding:"3px 10px", borderRadius:20, background:`${p.color}20`, border:`1px solid ${p.color}50`, fontSize:10, color:p.color, fontWeight:600, letterSpacing:"0.08em" }}>{p.cat}</div>
@@ -494,8 +623,18 @@ function Contact({ info }) {
   const submit = async () => {
     if (!form.name||!form.email||!form.message) return;
     setStatus("loading");
-    await new Promise(r => setTimeout(r, 900));
-    setStatus("success");
+    try {
+      // Sign up at https://emailjs.com and replace these 3 values:
+      await window.emailjs.send(
+        "YOUR_SERVICE_ID",   // e.g. "service_abc123"
+        "YOUR_TEMPLATE_ID",  // e.g. "template_xyz789"
+        { from_name: form.name, from_email: form.email, message: form.message, to_email: info.email },
+        "YOUR_PUBLIC_KEY"    // e.g. "AbCdEfGhIjKlMnOp"
+      );
+      setStatus("success");
+    } catch(e) {
+      setStatus("error");
+    }
   };
   return (
     <section id="contact" className="section" style={{ background:"rgba(255,255,255,0.01)" }}>
@@ -513,6 +652,13 @@ function Contact({ info }) {
                 <h3 style={{ fontFamily:"Syne", fontSize:24, color:"#4DFFB4", marginBottom:10 }}>Message Sent!</h3>
                 <p style={{ color:"rgba(255,255,255,0.4)" }}>I'll reply to {info.email} soon.</p>
                 <button onClick={() => { setStatus("idle"); setForm({ name:"", email:"", message:"" }); }} style={{ marginTop:20, padding:"10px 22px", background:"none", border:"1px solid rgba(255,255,255,0.2)", color:"#fff", fontFamily:"DM Sans", cursor:"pointer", borderRadius:8, fontSize:13 }}>Send Another</button>
+              </div>
+            ) : status==="error" ? (
+              <div style={{ textAlign:"center", padding:"50px 0" }}>
+                <div style={{ fontSize:52, marginBottom:14 }}>😕</div>
+                <h3 style={{ fontFamily:"Syne", fontSize:24, color:"#FF4D6D", marginBottom:10 }}>Sending Failed</h3>
+                <p style={{ color:"rgba(255,255,255,0.4)" }}>Please email me directly at <a href={`mailto:${info.email}`} style={{ color:"#4DFFB4" }}>{info.email}</a></p>
+                <button onClick={() => setStatus("idle")} style={{ marginTop:20, padding:"10px 22px", background:"none", border:"1px solid rgba(255,255,255,0.2)", color:"#fff", fontFamily:"DM Sans", cursor:"pointer", borderRadius:8, fontSize:13 }}>Try Again</button>
               </div>
             ) : (
               <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
@@ -784,6 +930,7 @@ function AdminPanel({ onClose, projects, setProjects, info, setInfo }) {
 export default function App() {
   const [active, setActive] = useState("hero");
   const [showAdmin, setShowAdmin] = useState(false);
+  const [showTop, setShowTop] = useState(false);
   const { projects: initP, info: initI } = loadData();
   const [projects, setProjects] = useState(initP);
   const [info, setInfo] = useState(initI);
@@ -795,6 +942,22 @@ export default function App() {
     }, { threshold: 0.3 });
     sections.forEach(id => { const el = document.getElementById(id); if (el) obs.observe(el); });
     return () => obs.disconnect();
+  }, []);
+
+  // Scroll-reveal: fade-in-up on sections
+  useEffect(() => {
+    const revObs = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add("revealed"); revObs.unobserve(e.target); } });
+    }, { threshold: 0.1 });
+    document.querySelectorAll(".section").forEach(el => revObs.observe(el));
+    return () => revObs.disconnect();
+  }, []);
+
+  // Scroll-to-top button visibility
+  useEffect(() => {
+    const fn = () => setShowTop(window.scrollY > 300);
+    window.addEventListener("scroll", fn);
+    return () => window.removeEventListener("scroll", fn);
   }, []);
 
   return (
@@ -816,6 +979,24 @@ export default function App() {
           projects={projects} setProjects={setProjects}
           info={info} setInfo={setInfo}
         />
+      )}
+      {showTop && (
+        <button
+          onClick={() => window.scrollTo({ top:0, behavior:"smooth" })}
+          style={{
+            position:"fixed", bottom:32, right:32, zIndex:999,
+            width:46, height:46, borderRadius:"50%",
+            background:"linear-gradient(135deg,#FF4D6D,#A78BFA)",
+            border:"none", color:"#fff", fontSize:20, cursor:"pointer",
+            boxShadow:"0 4px 20px rgba(255,77,109,0.4)",
+            display:"flex", alignItems:"center", justifyContent:"center",
+            transition:"transform 0.2s, opacity 0.3s",
+            animation:"fadeInUp 0.3s ease"
+          }}
+          onMouseEnter={e => e.currentTarget.style.transform="scale(1.15)"}
+          onMouseLeave={e => e.currentTarget.style.transform="scale(1)"}
+          title="Back to top"
+        >↑</button>
       )}
     </>
   );
