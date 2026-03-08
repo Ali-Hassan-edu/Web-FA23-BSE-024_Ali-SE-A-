@@ -81,7 +81,7 @@ my-portfolio/
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/Ali-Hassan-edu/my-portfolio.git
+git clone https://github.com/Ali-Hassan-edu/my-portfolio/my-portfolio.git
 
 # 2. Navigate into the project directory
 cd my-portfolio
@@ -200,7 +200,7 @@ This project can be deployed to any static hosting platform:
 ## 🤝 Contact
 
 **Ali Hassan**  
-📧 [ali.hassan.edu@example.com](mailto:ali.hassan.edu@example.com)  
+📧 [raoali.edu@example.com](mailto:ali.hassan.edu@example.com)  
 🔗 [LinkedIn](https://linkedin.com/in/ali-hassan-edu)  
 💻 [GitHub](https://github.com/Ali-Hassan-edu)  
 📍 Pakistan
