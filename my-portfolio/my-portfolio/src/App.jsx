@@ -271,7 +271,7 @@ function Hero({ info }) {
     *{margin:0;padding:0;box-sizing:border-box;}
     body{font-family:'Segoe UI',Arial,sans-serif;background:#fff;color:#111;font-size:13px;line-height:1.6;}
     .page{max-width:780px;margin:0 auto;padding:42px 48px;}
-    .header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #FF4D6D;padding-bottom:22px;margin-bottom:26px;}
+    .header{display:flex;justify-content:space-between;align-items:center;border-bottom:3px solid #FF4D6D;padding-bottom:22px;margin-bottom:26px;}
     .name{font-size:34px;font-weight:900;letter-spacing:-1px;color:#111;}
     .tagline{font-size:13px;color:#666;margin-top:4px;}
     .contact-info{text-align:right;font-size:12px;color:#444;line-height:1.8;}
@@ -298,10 +298,13 @@ function Hero({ info }) {
 <body>
 <div class="page">
   <div class="header">
-    <div>
-      <div class="name">${info.name}</div>
-      <div class="tagline">${info.tagline}</div>
-      <div class="tagline" style="margin-top:2px;color:#888;">Software Engineering Student · ${info.university}</div>
+    <div style="display:flex;align-items:center;gap:18px;">
+      <img src="data:image/jpeg;base64,${PHOTO}" alt="${info.name}" style="width:100px;height:120px;object-fit:cover;object-position:center top;border-radius:12px;border:3px solid #FF4D6D;flex-shrink:0;box-shadow:0 4px 16px rgba(255,77,109,0.25);" />
+      <div>
+        <div class="name">${info.name}</div>
+        <div class="tagline">${info.tagline}</div>
+        <div class="tagline" style="margin-top:2px;color:#888;">Software Engineering Student · ${info.university}</div>
+      </div>
     </div>
     <div class="contact-info">
       <div><a href="mailto:${info.email}">${info.email}</a></div>
